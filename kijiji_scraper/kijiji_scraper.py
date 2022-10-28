@@ -65,7 +65,9 @@ class KijijiScraper():
                 url = 'https://www.kijiji.ca' + url['href']
 
         return self.new_ads, email_title
-
+    def perfect_for_karine_and_I(self, kijiji_ad):
+        location = kijiji_ad.info['Location']
+        price = kijiji_ad.info['Price']
     def find_ads(self, soup):
         # Finds all ad trees in page html.
         kijiji_ads = soup.find_all("div", {"class": "search-item regular-ad"})
@@ -89,7 +91,7 @@ class KijijiScraper():
         # Create a dictionary of all ads with ad id being the key
         for ad in kijiji_ads:
             kijiji_ad = KijijiAd(ad)
-
+            self.perfect_for_karine_and_I(kijiji_ad)
             # If any of the title words match the exclude list then skip
             if not [False for match in self.exclude_list
                     if match in kijiji_ad.title.lower()]:

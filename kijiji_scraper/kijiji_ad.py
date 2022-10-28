@@ -44,8 +44,9 @@ class KijijiAd():
                         .replace(self.info["Details"], '')
 
                 elif key == "Location":
-                    self.info[key] = value.text.strip() \
-                        .replace(self.info["Date"], '')
+                    text = value.text
+                    text.strip().replace(self.info["Date"], '')
+                    self.info[key] = text
                     
                 elif key == "Image":
                     self.info[key] = '<img src =\"' + (self.info["DataSource"]) + '\"/>'

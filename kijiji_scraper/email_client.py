@@ -9,6 +9,7 @@ class EmailClient():
         self.username = email_config.get("username")
         self.password = email_config.get("password")
         self.receiver = email_config.get("receiver")
+        self.receiver2 = email_config.get("receiver2")
         self.smtp_server = email_config.get("smtp server")
         self.smtp_port = email_config.get("smtp port")
 
@@ -16,11 +17,24 @@ class EmailClient():
     def mail_ads(self, ad_dict, email_title):
         subject = self.__create_email_subject(email_title, len(ad_dict))
         body = self.__create_email_body(ad_dict)
-
+        # sending to flo
         msg = MIMEText(body, 'html')
         msg['Subject'] = subject
         msg['From'] = self.from_email
         msg['To'] = self.receiver
+
+        server = smtplib.SMTP_SSL(self.smtp_server, self.smtp_port)
+
+        server.ehlo()
+        server.login(self.username, self.password)
+        server.send_message(msg)
+
+        server.quit()
+        # sending to karine
+        msg = MIMEText(body, 'html')
+        msg['Subject'] = subject
+        msg['From'] = self.from_email
+        msg['To'] = self.receiver2
 
         server = smtplib.SMTP_SSL(self.smtp_server, self.smtp_port)
 
